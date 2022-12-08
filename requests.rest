@@ -1,0 +1,26 @@
+# GET  http://localhost:5000/auth/test
+
+# Authorization: Bearer
+# # eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+# # eyJpZCI6MiwibmFtZSI6IkltYW5lIiwiZW1haWwiOiJpcUBob2xhLmZyIiwiYWRtaW4iOnRydWUsImlhdCI6MTY3MDA5ODQ5MCwiZXhwIjoxNjcwMTAwMjkwfQ.
+# # XqaVDMT1vHgoQENoKR1zi8BgWTH0Bg-Ja9OOG_sSyA0
+
+
+POST http://localhost:5000/user
+
+Content-Type: : application/json
+
+{
+
+  "nom":"Kdkdfjrep",
+  "prenom":  "Imane",
+  "utilisateur_mail": "e@gmail.com",
+  "utilisateur_mdp": "azerty"
+
+}
+
+
+
+
+
+# https://www.youtube.com/watch?v=mbsmsi7l3r4
