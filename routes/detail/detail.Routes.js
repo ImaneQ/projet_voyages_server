@@ -2,16 +2,18 @@ const express = require('express');
 const routerDetail = express.Router();
 
 
-const { postD, getAll, getD, putD, deleteD } = require('./detail.controller');
+const { postD, getAll, getD, putD, deleteD, deleteAllD } = require('./detail.controller');
 
 
-routerDetail.route('/detail')
+routerDetail.route('/details/:id')
 
-    .post(postD)
+    .get(getAll)
 
-    .get(getAll);
+    .delete(deleteAllD)
 
 routerDetail.route('/detail/:id')
+
+    .post(postD)
 
     .get(getD)
 

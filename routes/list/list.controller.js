@@ -8,8 +8,7 @@ exports.postList = async (req, res) => {
     try {
 
         const { utilisateur_id, list_title } = req.body;
-        console.log(req.body);
-        //!!!!!!!! lors de la requete le user doit il rentrer manuellement son id ? car utilisateur_id
+        console.log('req.body', req.body);
         const createList = await pool.query(
             "INSERT INTO todo_list (utilisateur_id, list_title) VALUES($1, $2) RETURNING *", [utilisateur_id, list_title]);
 
@@ -28,9 +27,10 @@ exports.postList = async (req, res) => {
 exports.readLists = async (req, res) => {
 
     try {
+        const { id } = req.params;
 
         const getAllLists = await pool.query(
-            "SELECT * FROM todo_list");
+            "SELECT * FROM todo_list WHERE utilisateur_id = $1", [id]);
         res.json(getAllLists.rows)
 
     } catch (error) {
@@ -80,11 +80,11 @@ exports.updateL = async (req, res) => {
 // ************** DELETE list ************* OK
 
 
-exports.deleteL = async (req, res) => {
+exports.deleteTitle = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const deleteList = await pool.query("DELETE FROM todo_list WHERE todo_list_id = $1", [id])
+        const deleteTitle = await pool.query("DELETE FROM todo_list WHERE todo_list_id = $1", [id])
         console.log(req.body);
         res.json('List has been deleted !');
 
@@ -92,4 +92,19 @@ exports.deleteL = async (req, res) => {
         console.log(error.message);
     }
 }
+// ************** DELETE ALL INSIDE list ************* OK
+
+
+// exports.deleteList = async (req, res) => {
+//     try {
+//         const { id } = req.params;
+
+//         const deleteList = await pool.query("DELETE todo_list detail FROM todo_list, detail INNER JOIN todo_list_id WHERE todo_list_id = $1", [id])
+//         console.log(req.body);
+//         res.json('List has been deleted !');
+
+//     } catch (error) {
+//         console.log(error.message);
+//     }
+// }
 

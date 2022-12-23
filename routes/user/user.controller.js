@@ -21,8 +21,8 @@ exports.authFct = (async (req, res, next) => {
             return res.sendStatus(403) // message d'erreur : "Forbidden" (le serveur refuse d'executer la requete alors qu'il a le token : mauvaise authentification.
         } else {
             req.user = utilisateur
+            console.log('req.user', req.user);
             // on assigne user à req.user. On se servira de req.user dans la méthode get
-            console.log('req.user: ', req.user);
             // puis on next avec la requete
             next()
         }
@@ -63,7 +63,7 @@ exports.getUser = (async (req, res) => {
 ////////?????? CREATE USER ??????/////// OK
 
 exports.postU = async (req, res) => {
-    
+
     try {
 
         const { nom, prenom, utilisateur_mail, utilisateur_mdp } = req.body;
@@ -104,22 +104,24 @@ exports.postLogin = async (req, res) => {
         // on compare les 2 mots de passe compare(mot de passe, mot de passe hashé)
         const validPassword = await bcrypt.compare(utilisateur_mdp, userLogin.rows[0].utilisateur_mdp);
 
-        console.log('validPassword', validPassword);
-        console.log('utilisateur_mdp:', utilisateur_mdp);
-        console.log('users.rows[0].utilisateur_mdp:', userLogin.rows[0].utilisateur_mdp);
+        // console.log('validPassword', validPassword);
+        // console.log('utilisateur_mdp:', utilisateur_mdp);
+        // console.log('users.rows[0].utilisateur_mdp:', userLogin.rows[0].utilisateur_mdp);
 
         // JWT
 
         const userMail = { mail: utilisateur_mail, utilisateur_mdp: userLogin.rows[0].utilisateur_mdp }
-
+        console.log(userMail);
         const token = jwt.sign(userMail, process.env.ACCESS_TOKEN_SECRET);
-
+        console.log('token', token);
+        // window.localStorage.setItem('token', token)
+        // const authHeader = req.headers['authorization',]
         // check password
 
 
         if (!validPassword) return res.status(401).json({ error: "Incorrect password" });
         res.json({ users: userLogin.rows[0], token: token });
-        return res.status(200).json("Success");
+
 
 
     } catch (error) {
@@ -162,9 +164,9 @@ exports.updateU = async (req, res) => {
         const { id } = req.params;
         console.log('ID update=', id);
 
-        
+
         const { nom, prenom, utilisateur_mail, utilisateur_mdp } = req.body;
-        
+
         const hashedPwd = await bcrypt.hash(utilisateur_mdp, 10);
         console.log('Hashed password', hashedPwd);
 

@@ -4,6 +4,8 @@
 require('dotenv').config();
 const express = require('express')
 const app = express();
+const cors = require('cors');
+app.use(cors());
 
 // On fait appel aux différentes routes
 const routerUser = require('./routes/user/user.Routes')

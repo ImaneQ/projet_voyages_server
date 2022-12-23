@@ -7,14 +7,16 @@ exports.postD = async (req, res) => {
 
     try {
 
-        const { description, todo_list_id } = req.body;
+        const { id } = req.params;
+
+        const { description } = req.body;
 
         const postDetail = await pool.query(
             "INSERT INTO detail (todo_list_id, description) VALUES($1, $2) RETURNING *",
-            [todo_list_id, description]
+            [id, description]
         );
 
-        res.json('Detail has been updated');
+        res.json(postDetail.rows[0]);
 
 
 
@@ -31,9 +33,9 @@ exports.postD = async (req, res) => {
 exports.getAll = async (req, res) => {
 
     try {
-
+        const { id } = req.params
         const getAllDetails = await pool.query(
-            "SELECT * FROM detail"
+            "SELECT * FROM detail WHERE todo_list_id = $1", [id]
         );
 
         res.json(getAllDetails.rows);
@@ -99,6 +101,23 @@ exports.deleteD = async (req, res) => {
         const deleteDetail = await pool.query("DELETE FROM detail WHERE detail_id = $1", [id])
 
         res.json('Detail has been deleted !');
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+// todo:---------- DELETE ALL DETAILS FROM ONE LIST -------------- ok
+
+
+exports.deleteAllD = async (req, res) => {
+
+    try {
+        const { id } = req.params;
+
+        const deleteAllDetails = await pool.query("DELETE FROM detail WHERE todo_list_id = $1", [id])
+
+        res.json('All Details had been deleted !');
 
     } catch (error) {
         console.log(error.message);
