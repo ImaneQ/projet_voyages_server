@@ -1,3 +1,4 @@
+// on fait appel à la librairie "pg" ,,
 const Pool = require("pg").Pool
 
 const pool = new Pool({
