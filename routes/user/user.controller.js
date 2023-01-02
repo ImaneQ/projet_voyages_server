@@ -1,21 +1,28 @@
 // on fait appel au pool pour la connexion avec la db
 const pool = require('../../database');
+
+// npm i bcrypt (crypter mots de passe)
 const bcrypt = require('bcrypt');
+
+// ! npm install jsonwebtoken (librairie jsonwebtoken)
 const jwt = require('jsonwebtoken')
 
 
 // fonction pour l'authentification
 exports.authFct = (async (req, res, next) => {
 
-
+    // on recupere le param 'authorization' dans les headers de ma requete 
     const authHeader = req.headers['authorization'] // Bearer TOKEN
     console.log('authHeader', authHeader);
 
+    // pour séparer bearer de l'authorization par des espaces
     const token = authHeader && authHeader.split(' ')[1]
     console.log('token', token);
 
+    // on vérifie si il y a bien un token 
     if (token == null) return res.sendStatus(401) // message erreur : "unauthorized" (requête non authentifiée) = il n'a pas le token
 
+    // 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, utilisateur) => {
         if (err) {
             return res.sendStatus(403) // message d'erreur : "Forbidden" (le serveur refuse d'executer la requete alors qu'il a le token : mauvaise authentification.

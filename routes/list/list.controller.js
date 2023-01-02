@@ -92,19 +92,5 @@ exports.deleteTitle = async (req, res) => {
         console.log(error.message);
     }
 }
-// ************** DELETE ALL INSIDE list ************* OK
 
-
-// exports.deleteList = async (req, res) => {
-//     try {
-//         const { id } = req.params;
-
-//         const deleteList = await pool.query("DELETE todo_list detail FROM todo_list, detail INNER JOIN todo_list_id WHERE todo_list_id = $1", [id])
-//         console.log(req.body);
-//         res.json('List has been deleted !');
-
-//     } catch (error) {
-//         console.log(error.message);
-//     }
-// }
 
