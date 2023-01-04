@@ -61,7 +61,7 @@ exports.getUser = (async (req, res) => {
     } catch (error) {
 
         console.error(error.message);
-
+        res.send('Erreur')
     }
 })
 
